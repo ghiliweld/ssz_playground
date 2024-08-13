@@ -10,6 +10,9 @@ documentation = "https://docs.rs/ssz_types"
 keywords = ["ethereum"]
 categories = ["cryptography::cryptocurrencies"]
 
+[profile.bench]
+debug = true
+
 [dependencies]
 tree_hash = "0.6.0"
 ethereum_ssz = "0.5.0"
@@ -25,3 +28,8 @@ itertools = "0.10.0"
 [dev-dependencies]
 serde_json = "1.0.0"
 tree_hash_derive = "0.6.0"
+criterion = "0.3"
+
+[[bench]]
+name = "beacon_block_benchmark"
+harness = false
