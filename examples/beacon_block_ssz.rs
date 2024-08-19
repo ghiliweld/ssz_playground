@@ -10,19 +10,19 @@ fn decode(bytes: &Vec<u8>) -> SignedBeaconBlock {
     SignedBeaconBlock::from_ssz_bytes(&bytes).unwrap()
 }
 
-#[inline(never)]
-fn encode(beacon_block: &SignedBeaconBlock) -> Vec<u8> {
-    beacon_block.as_ssz_bytes()
-}
+// #[inline(never)]
+// fn encode(beacon_block: &SignedBeaconBlock) -> Vec<u8> {
+//     beacon_block.as_ssz_bytes()
+// }
 
 fn main() {
     // prepare all ssz data
     // from (Deneb) slot: 9717504
-    let bytes: Vec<u8> = fs::read("beacon-block.ssz").unwrap();
-    let beacon_block = SignedBeaconBlock::from_ssz_bytes(&bytes).unwrap();
+    let bytes: Vec<u8> = fs::read("ssz-blocks/beacon-block.ssz").unwrap();
+    let _beacon_block = SignedBeaconBlock::from_ssz_bytes(&bytes).unwrap();
 
     let _profiler = dhat::Profiler::builder()
-        .file_name("dhat-block.json")
+        .file_name("dhat-block-map_while.json")
         .trim_backtraces(None)
         .build();
 

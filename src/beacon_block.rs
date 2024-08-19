@@ -1,8 +1,6 @@
 use std::fmt::Debug;
-use std::sync::Arc;
 
-use crate::{length::Variable, BitList, BitVector, Bitfield, FixedVector, VariableList};
-use ssz::{Decode, DecodeError, Encode};
+use crate::{BitList, BitVector, FixedVector, VariableList};
 use ssz_derive::{Decode, Encode};
 use typenum::Unsigned;
 

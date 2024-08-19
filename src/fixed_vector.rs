@@ -1,7 +1,8 @@
 use crate::tree_hash::vec_tree_hash_root;
-use crate::Error;
+use crate::{Error, VariableList};
 use derivative::Derivative;
 use serde_derive::{Deserialize, Serialize};
+use ssz::TryFromIter;
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut, Index, IndexMut};
 use std::slice::SliceIndex;
@@ -304,18 +305,28 @@ where
                 )));
             }
 
-            bytes
+            let iter = bytes
                 .chunks(T::ssz_fixed_len())
-                .map(|chunk| T::from_ssz_bytes(chunk))
-                .collect::<Result<Vec<T>, _>>()
-                .and_then(|vec| {
-                    Self::new(vec).map_err(|e| {
-                        ssz::DecodeError::BytesInvalid(format!(
-                            "Wrong number of FixedVector elements: {:?}",
-                            e
-                        ))
-                    })
-                })
+                .map_while(|chunk| T::from_ssz_bytes(chunk).ok());
+            FixedVector::try_from_iter(iter).map_err(|e| {
+                ssz::DecodeError::BytesInvalid(format!(
+                    "Wrong number of FixedVector elements: {:?}",
+                    e
+                ))
+            })
+
+            // bytes
+            //     .chunks(T::ssz_fixed_len())
+            //     .map(|chunk| T::from_ssz_bytes(chunk))
+            //     .collect::<Result<Vec<T>, _>>()
+            //     .and_then(|vec| {
+            //         Self::new(vec).map_err(|e| {
+            //             ssz::DecodeError::BytesInvalid(format!(
+            //                 "Wrong number of FixedVector elements: {:?}",
+            //                 e
+            //             ))
+            //         })
+            //     })
         } else {
             let vec = ssz::decode_list_of_variable_length_items(bytes, Some(fixed_len))?;
             Self::new(vec).map_err(|e| {

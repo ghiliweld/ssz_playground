@@ -5,7 +5,7 @@ use ssz_types::SignedBeaconBlock;
 use std::fs;
 
 pub fn criterion_benchmark(c: &mut Criterion) {
-    let block_bytes: Vec<u8> = fs::read("beacon-block.ssz").unwrap();
+    let block_bytes: Vec<u8> = fs::read("ssz-blocks/beacon-block.ssz").unwrap();
     let beacon_block = SignedBeaconBlock::from_ssz_bytes(&block_bytes).unwrap();
 
     c.bench_function("SignedBeaconBlock decode", |b| {
