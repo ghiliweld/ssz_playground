@@ -1,5 +1,6 @@
 /target
 /Cargo.lock
 dhat*.json
-*.ssz
+/ssz-state
+/ssz-blocks
 .DS_Store
